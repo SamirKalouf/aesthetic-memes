@@ -20,7 +20,7 @@
 
 <body>
 
-<nav class="navbar navbar-default" style="background-color: #A39193;">
+<nav class="navbar navbar-default" style="background-color: #A39193; border-radius:0;">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -50,16 +50,27 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-sm-2">
-      {% block sidebar %}
-      <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'books' %}">All books</a></li>
-          <li><a href="{% url 'authors' %}">All authors</a></li>
+    <div class="btn-group-vertical col-lg-2 removeContainerLeftPadding" role="group" aria-label="Button group with nested dropdown">
+      <a id="sideNav" href="{% url 'index' %}"><button type="button" id="sideButton" class="btn btn-secondary fontSize18px">
+        <span class="pull-left">
+          <i class="fas fa-home paddingRight10px"></i>&nbsp;&nbsp;Home
+        </span>
+      </button></a>
+      
+      <a id="sideNav" href="{% url 'books' %}"><button type="button" id="sideButton" class="btn btn-secondary fontSize18px sidenavborder">
+        <span class="pull-left">
+          <i class="fas fa-book paddingRight10px"></i>&nbsp;&nbsp;&nbsp;All Books
+        </span>
+      </button></a>
 
-     </ul>
-     {% endblock %}
-      </div>
+      <a id="sideNav" href="{% url 'authors' %}"><button type="button" id="sideButton" class="btn btn-secondary fontSize18px sidenavborder">
+        <span class="pull-left">
+          <i class="fa fa-users paddingRight10px"></i>&nbsp;&nbsp;All Authors
+        </span>
+      </button></a>
+
+    </div>
+
       <div class="col-sm-10 ">
       {% block content %}{% endblock %}
 

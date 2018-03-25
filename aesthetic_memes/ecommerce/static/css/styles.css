@@ -17,7 +17,7 @@
 
 footer {
   position: absolute;
-  height: 100px;
+  height: 60px;
   bottom: 0;
   width: 100%;
   font-size: 1.1rem;
@@ -38,4 +38,60 @@ body {
   margin:0;
   padding:0;
   height:100%;
+}
+
+a#sideNav, a#backBtn {
+  color:#000;
+}
+
+a#sideNav:hover, a#backBtn:hover {
+  color:#000;
+}
+
+a#sideNav:active, a#backBtn:active {
+  color:#000;
+}
+
+a#sideNav:focus, a#backBtn:focus {
+  text-decoration: underline;
+  color:#000;
+}
+
+#backBtn {
+  background-color: #eee;
+  border: none;
+}
+
+#backBtn:hover {
+  background-color:#D3D3D3;
+}
+
+#sideButton {
+  width: 100%;
+  border-radius: 0 !important;
+}
+
+#btnGroupDrop1 {
+  border-radius: 0 !important;
+}
+
+.btn:hover {
+  background-color:#D3D3D3;
+}
+
+#sidenav:hover {
+  background-color:#D3D3D3;
+}
+
+.sidenavborder {
+  border-top-style: solid;
+  border-width: 1px;
+  border-color: #D3D3D3;
+
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
+}
+.removeContainerLeftPadding {
+  padding-left: 0px;
 }
