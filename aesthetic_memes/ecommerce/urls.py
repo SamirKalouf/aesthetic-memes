@@ -21,3 +21,8 @@ urlpatterns += [
     path('book/<int:pk>/update/', views.BookUpdate.as_view(), name='book_update'),
     path('book/<int:pk>/delete/', views.BookDelete.as_view(), name='book_delete'),
 ]
+
+# Purchase
+urlpatterns += [
+    path('book/<int:pk>/purchase/', views.BookPurchase.as_view(), name='book_purchase'),
+]

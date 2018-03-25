@@ -3,3 +3,39 @@
     padding: 0;
     list-style: none;
 }
+
+#sideButton {
+  width: 100%;
+  border-radius: 0 !important;
+}
+
+.footborder {
+  border-top-style: solid;
+  border-width: 1px;
+  border-color: #D3D3D3;
+}
+
+footer {
+  position: absolute;
+  height: 100px;
+  bottom: 0;
+  width: 100%;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #aaa;
+  padding-left: .75em;
+  z-index: 1;
+}
+
+html {
+  margin:0;
+  padding:0;
+  height: 100%;
+}
+
+body {
+  margin:0;
+  padding:0;
+  height:100%;
+}

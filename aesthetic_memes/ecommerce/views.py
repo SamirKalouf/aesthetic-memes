@@ -4,6 +4,8 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Author
+from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -68,3 +70,6 @@ class BookUpdate(UpdateView):
 class BookDelete(DeleteView):
     model = Book
     success_url = reverse_lazy('books')
+
+class BookPurchase(TemplateView):
+	template_name = "book_purchase.html"
