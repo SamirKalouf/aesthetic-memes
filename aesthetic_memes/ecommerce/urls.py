@@ -26,3 +26,9 @@ urlpatterns += [
 urlpatterns += [
     path('book/<int:pk>/purchase/', views.BookPurchase.as_view(), name='book_purchase'),
 ]
+
+#cart
+
+urlpatterns += [
+    path('cart/', views.CartListView.as_view(), name='cart'),
+]

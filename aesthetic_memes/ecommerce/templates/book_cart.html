@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1> Cart </h1>
+
+  {% if cart %}
+     {% for book in cart %}
+        <p><strong>{{ book.title }}</strong> </p>
+     {% endfor %}
+  {% endif %}
+
+{% endblock %}

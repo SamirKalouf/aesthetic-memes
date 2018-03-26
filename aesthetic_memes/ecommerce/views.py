@@ -72,4 +72,8 @@ class BookDelete(DeleteView):
     success_url = reverse_lazy('books')
 
 class BookPurchase(TemplateView):
-	template_name = "book_purchase.html"
+	template_name = "book_page.html"
+
+class CartListView(generic.ListView):
+    model = Book
+    paginate_by = 10

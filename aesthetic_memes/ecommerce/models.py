@@ -119,3 +119,6 @@ class Language(models.Model):
         String for representing the Model object (in Admin site etc.)
         """
         return self.name
+
+'''class Cart(models.Model):
+    Books = '''
