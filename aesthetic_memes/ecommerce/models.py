@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
-
+from profiles.models import Profile
 
 # Create your models here.
 
@@ -66,6 +66,9 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
 
+    owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    cart = models.ForeignKey('Cart', on_delete=models.SET_NULL, null=True)
+
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
@@ -122,5 +125,9 @@ class Language(models.Model):
         """
         return self.name
 
-'''class Cart(models.Model):
-    Books = '''
+class Cart(models.Model):
+    """
+    Model representing a user's cart
+    """
+
+    owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)

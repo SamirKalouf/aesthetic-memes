@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Genre, Book, BookInstance, Language
+from .models import Author, Genre, Book, BookInstance, Language, Cart
 
 # Register your models here.
 
@@ -9,6 +9,7 @@ from .models import Author, Genre, Book, BookInstance, Language
 admin.site.register(Genre)
 #admin.site.register(BookInstance)
 admin.site.register(Language)
+admin.site.register(Cart)
 
 # Define the admin class
 class AuthorAdmin(admin.ModelAdmin):
@@ -36,7 +37,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('book', 'imprint', 'id')
+            'fields': ('book', 'imprint', 'id', 'owner', 'cart')
         }),
         ('Availability', {
             'fields': ('status', 'due_back')

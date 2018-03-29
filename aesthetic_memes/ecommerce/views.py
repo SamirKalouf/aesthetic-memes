@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import Book, Author, BookInstance, Genre
+from .models import Book, Author, BookInstance, Genre, Cart
+from profiles.models import Profile
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
