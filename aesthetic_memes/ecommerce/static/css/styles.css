@@ -25,19 +25,15 @@ footer {
   border-top: 1px solid #eee;
   border-left: 1px solid #aaa;
   padding-left: .75em;
-  z-index: 1;
 }
 
 html {
-  margin:0;
-  padding:0;
-  height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-  margin:0;
-  padding:0;
-  height:100%;
+  margin-bottom: 60px;
 }
 
 a#sideNav, a#backBtn {

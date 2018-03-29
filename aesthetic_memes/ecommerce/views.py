@@ -74,6 +74,12 @@ class BookDelete(DeleteView):
 class BookPurchase(TemplateView):
 	template_name = "book_page.html"
 
-class CartListView(generic.ListView):
-    model = Book
-    paginate_by = 10
+def CartView(request):
+
+    books = Book.objects.all()
+
+    return render(
+        request,
+        'book_cart.html',
+        context = {'books': books}
+    )

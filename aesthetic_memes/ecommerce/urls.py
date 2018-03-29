@@ -30,5 +30,5 @@ urlpatterns += [
 #cart
 
 urlpatterns += [
-    path('cart/', views.CartListView.as_view(), name='cart'),
+    path('cart/', views.CartView, name='cart'),
 ]
