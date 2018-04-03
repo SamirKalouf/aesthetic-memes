@@ -5,14 +5,8 @@
     <h1> Cart </h1>
   </div>
 
-  {% for book in books %}
+  {% for book in owned_books %}
     <p>{{book}}</p>
   {% endfor %}
-
-  {% if cart %}
-     {% for book in cart %}
-        <p><strong>{{ book.title }}</strong> </p>
-     {% endfor %}
-  {% endif %}
 
 {% endblock %}

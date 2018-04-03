@@ -32,3 +32,8 @@ urlpatterns += [
 urlpatterns += [
     path('cart/', views.CartView, name='cart'),
 ]
+
+# books on loan to user
+urlpatterns += [   
+    path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
+]

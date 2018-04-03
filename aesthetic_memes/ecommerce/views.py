@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Book, Author, BookInstance, Genre, Cart
+from django.contrib.auth.models import User
 from profiles.models import Profile
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -7,6 +8,7 @@ from django.urls import reverse_lazy
 from .models import Author
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -79,8 +81,26 @@ def CartView(request):
 
     books = Book.objects.all()
 
+    books_owned = request.user.profile.bookinstance_set
+
+    owned_books = []
+    for book in books_owned.all():
+        owned_books.append(book)
+
     return render(
         request,
         'book_cart.html',
-        context = {'books': books}
+        context = {'books': books,
+                    'owned_books': owned_books}
     )
+
+class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+    """
+    Generic class-based view listing books on loan to current user. 
+    """
+    model = BookInstance
+    template_name ='ecommerce/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
