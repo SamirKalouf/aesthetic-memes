@@ -8,7 +8,22 @@ from django.urls import reverse_lazy
 from .models import Author
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import datetime
+
+from .forms import RenewBookForm
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Author
 
 # Create your views here.
 
@@ -49,30 +64,38 @@ class AuthorListView(generic.ListView):
 class AuthorDetailView(generic.DetailView):
     model = Author
 
-class AuthorCreate(CreateView):
-    model = Author
-    fields = '__all__'
-    initial={'date_of_death':'05/01/2018',}
+class AuthorCreate(PermissionRequiredMixin, CreateView):
+	current_date = datetime.datetime.now()
+	current_date_formatted = current_date.strftime('%m/%d/%Y')
+	model = Author
+	fields = '__all__'
+	initial={'date_of_death':current_date_formatted,}
+	permission_required = 'ecommerce.can_add_author'
 
-class AuthorUpdate(UpdateView):
-    model = Author
-    fields = ['first_name','last_name','date_of_birth','date_of_death']
+class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+	model = Author
+	fields = ['first_name','last_name','date_of_birth','date_of_death']
+	permission_required = 'ecommerce.can_change_author'
 
-class AuthorDelete(DeleteView):
-    model = Author
-    success_url = reverse_lazy('authors')
+class AuthorDelete(PermissionRequiredMixin, DeleteView):
+	model = Author
+	success_url = reverse_lazy('authors')
+	permission_required = 'ecommerce.can_delete_author'
 
-class BookCreate(CreateView):
-    model = Book
-    fields = '__all__'
+class BookCreate(PermissionRequiredMixin, CreateView):
+	model = Book
+	fields = '__all__'
+	permission_required = 'ecommerce.can_add_book'
 
-class BookUpdate(UpdateView):
-    model = Book
-    fields = '__all__'
+class BookUpdate(PermissionRequiredMixin, UpdateView):
+	model = Book
+	fields = '__all__'
+	permission_required = 'ecommerce.can_change_book'
 
-class BookDelete(DeleteView):
-    model = Book
-    success_url = reverse_lazy('books')
+class BookDelete(PermissionRequiredMixin, DeleteView):
+	model = Book
+	success_url = reverse_lazy('books')
+	permission_required = 'ecommerce.can_delete_book'
 
 class BookPurchase(TemplateView):
 	template_name = "book_page.html"
@@ -104,3 +127,60 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class LoanedBooksAllListView(PermissionRequiredMixin,generic.ListView):
+    """
+    Generic class-based view listing all books on loan. Only visible to users with can_mark_returned permission.
+    """
+    model = BookInstance
+    permission_required = 'ecommerce.can_mark_returned'
+    template_name ='ecommerce/bookinstance_list_borrowed_all.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')  
+
+@permission_required('ecommerce.can_mark_returned')
+def renew_book_librarian(request, pk):
+    """
+    View function for renewing a specific BookInstance by librarian
+    """
+    book_inst=get_object_or_404(BookInstance, pk = pk)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = RenewBookForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            book_inst.due_back = form.cleaned_data['renewal_date']
+            book_inst.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('all-borrowed') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
+
+    return render(request, 'ecommerce/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+
+@login_required
+def add_to_cart(request, book_id):
+    book_instance = get_object_or_404(BookInstance, pk=book_id)
+    book_instance.status = 'o' 
+
+    # set due date 3 weeks from borrow date
+    current_time = datetime.datetime.now()
+    three_week_offset = datetime.timedelta(days=21)
+    due_date = current_time + three_week_offset
+
+    book_instance.due_back = due_date
+    book_instance.borrower = request.user
+    book_instance.save()
+
+    return HttpResponseRedirect(reverse('my-borrowed'))
