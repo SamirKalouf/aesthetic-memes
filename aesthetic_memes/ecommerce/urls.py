@@ -44,5 +44,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('book/<uuid:book_id>/add', views.add_to_cart, name='add_to_cart'),
+    path('book/<uuid:book_id>/borrow', views.borrow_book, name='borrow-book'),
+    path('book/<uuid:book_id>/add-to-cart', views.add_to_cart, name='add-to-cart'),
 ]

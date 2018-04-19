@@ -22,8 +22,8 @@
         </div>
         <div class="col-sm-6">
             {% if copy.status == 'a' %}
-				<a href="#" class="btn btn-success pull-right" role="button">Purchase Book</a>
-                <a href="{% url 'add_to_cart' copy.id %}" class="btn btn-warning pull-right" style="margin-right:15px;" role="button">Borrow Book</a>
+				<a href="{% url 'add-to-cart' copy.id %}" class="btn btn-success pull-right" role="button">Add To Cart</a>
+                <a href="{% url 'borrow-book' copy.id %}" class="btn btn-warning pull-right" style="margin-right:15px;" role="button">Borrow Book</a>
 			{% endif %}
 
             <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>

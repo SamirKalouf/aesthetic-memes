@@ -170,7 +170,7 @@ def renew_book_librarian(request, pk):
     return render(request, 'ecommerce/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
 
 @login_required
-def add_to_cart(request, book_id):
+def borrow_book(request, book_id):
     book_instance = get_object_or_404(BookInstance, pk=book_id)
     book_instance.status = 'o' 
 
@@ -184,3 +184,13 @@ def add_to_cart(request, book_id):
     book_instance.save()
 
     return HttpResponseRedirect(reverse('my-borrowed'))
+
+@login_required
+def add_to_cart(request, book_id):
+    book_instance = get_object_or_404(BookInstance, pk=book_id)
+    book_instance.status = 'r' 
+
+    book_instance.owner = request.user.profile
+    book_instance.save()
+
+    return HttpResponseRedirect(reverse('cart'))
