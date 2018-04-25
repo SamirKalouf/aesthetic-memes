@@ -19,11 +19,16 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
 
-from .forms import RenewBookForm
+from .forms import RenewBookForm, KeywordSearchForm
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Author
+
+from django.views.generic import ListView
+from django.http import HttpResponse
+
+from django.db.models import Q
 
 # Create your views here.
 
@@ -53,13 +58,57 @@ def index(request):
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
+    form_class = KeywordSearchForm
+    search_error = False
+    query_keyword = None
 
+    def get_queryset(self):
+        form = self.form_class(self.request.GET)
+        if form.is_valid():
+            self.query_keyword = form.cleaned_data['keyword']
+            obj_list  = Book.objects.filter(   
+                                                (
+                                                    Q(title__icontains=form.cleaned_data['keyword'])
+                                                )
+                                            ).order_by('title')
+            # If search results return empty, raise error flag:
+            if not obj_list: self.search_error = True
+            return obj_list
+        return Book.objects.all()
+
+    # Pass error flag to prompt search error
+    def get_context_data(self, **kwargs):
+        context=super(BookListView, self).get_context_data(**kwargs)
+        context['search_error']=self.search_error
+        context['query_keyword']=self.query_keyword
+        return context
 class BookDetailView(generic.DetailView):
     model = Book
 
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 5
+
+    form_class = KeywordSearchForm
+    search_error = False
+    query_keyword = None
+
+    def get_queryset(self):
+        form = self.form_class(self.request.GET)
+        if form.is_valid():
+            self.query_keyword = form.cleaned_data['keyword']
+            obj_list  = Author.objects.filter(   
+                                                (
+                                                    Q(first_name__icontains=form.cleaned_data['keyword']) |
+                                                    Q(last_name__icontains=form.cleaned_data['keyword'])
+                                                )
+                                            ).order_by('last_name')
+            # If search results return empty, raise error flag:
+            if not obj_list: self.search_error = True
+            return obj_list
+        return Author.objects.all()
+
+
 
 class AuthorDetailView(generic.DetailView):
     model = Author

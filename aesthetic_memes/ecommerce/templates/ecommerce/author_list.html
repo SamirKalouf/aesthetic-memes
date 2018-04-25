@@ -4,7 +4,11 @@
   <div class="jumbotron">
     <h1>Author List</h1>
   </div>
-
+     <form action="" method="get" class="form-inline">
+       <input id="keyword" type="text" name="keyword" placeholder="Search">
+       <input type="submit" value="Search">
+       <a class="btn btn-primary" href="{%url 'authors' %}">Clear search</a>
+     </form>
     {% if author_list %}
     <ul>
 

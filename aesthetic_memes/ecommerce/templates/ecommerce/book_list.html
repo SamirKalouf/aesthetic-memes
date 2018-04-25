@@ -4,6 +4,12 @@
   <div class="jumbotron">
     <h1>Book List</h1>
   </div>
+    <form action="" method="get" class="form-inline">
+      <input id="keyword" type="text" name="keyword" placeholder="Search">
+      <input type="submit" value="Search">
+      <a class="btn btn-primary" href="{%url 'books' %}">Clear search</a>
+    </form>
+
     {% if book_list %}
     <ul>
 

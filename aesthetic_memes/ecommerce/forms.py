@@ -20,3 +20,13 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+
+# Search Form template for views that only query keywords (no filters):
+class KeywordSearchForm(forms.Form):
+    keyword = forms.CharField(max_length=20,required=True)
+
+    def clean(self):
+        cleaned_data=super(KeywordSearchForm, self).clean()
+        search_word=cleaned_data.get("keyword",None)
+        if search_word == None:
+            raise ValidationError("No Search")
