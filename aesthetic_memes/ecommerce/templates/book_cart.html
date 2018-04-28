@@ -7,9 +7,20 @@
 
   {% if owned_books %}
     {% for book in owned_books %}
-      <p>{{ book }}</p>
+      <p><a class="btn btn-danger" role="button" style="margin-right:10px;" href={% url 'remove-from-cart' book.id %}>Remove From Cart </a>{{ book }}(${{ book.price }})</p>
     {% endfor %}
   {% else %}
     <p>Your cart is empty.</p>
   {% endif %}
+
+  <hr>
+  {% if total_price != 0 %}
+    <p>Items: ${{ total_price }}</p>
+    <p>Shipping: FREE</p>
+    <p>Tax: ${{ tax }}</p>
+    <p>Total: ${{ total_price_with_tax }}</p>
+  {% endif %}
+
+  <a href="#" class="btn btn-success" role="button">Checkout</a> 
+  
 {% endblock %}

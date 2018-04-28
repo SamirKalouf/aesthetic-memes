@@ -30,6 +30,8 @@ from django.http import HttpResponse
 
 from django.db.models import Q
 
+import decimal
+
 # Create your views here.
 
 def index(request):
@@ -155,15 +157,25 @@ def CartView(request):
 
     books_owned = request.user.profile.bookinstance_set
 
+    total_price = 0
+    texas_tax = 0.0825
+
     owned_books = []
     for book in books_owned.all():
         owned_books.append(book)
+        total_price = total_price + book.price
+
+    tax = round(total_price * decimal.Decimal(texas_tax),2)
+    total_price_with_tax = total_price + tax
 
     return render(
         request,
         'book_cart.html',
         context = {'books': books,
-                    'owned_books': owned_books}
+                    'owned_books': owned_books,
+                    'total_price': total_price,
+                    'total_price_with_tax': total_price_with_tax,
+                    'tax': tax}
     )
 
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
@@ -240,6 +252,16 @@ def add_to_cart(request, book_id):
     book_instance.status = 'r' 
 
     book_instance.owner = request.user.profile
+    book_instance.save()
+
+    return HttpResponseRedirect(reverse('cart'))
+
+@login_required
+def remove_from_cart(request, book_id):
+    book_instance = get_object_or_404(BookInstance, pk=book_id)
+    book_instance.status = 'a'
+
+    book_instance.owner = None
     book_instance.save()
 
     return HttpResponseRedirect(reverse('cart'))

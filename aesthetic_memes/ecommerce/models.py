@@ -72,6 +72,8 @@ class BookInstance(models.Model):
     cart = models.ForeignKey('Cart', on_delete=models.SET_NULL, null=True, blank=True)
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
