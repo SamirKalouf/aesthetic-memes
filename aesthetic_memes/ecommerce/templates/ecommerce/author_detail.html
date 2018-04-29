@@ -17,4 +17,11 @@
 </dl>
 
 </div>
+
+{% if perms.can_delete_author %}
+  <hr>
+  <a class="btn btn-primary" href="{% url 'author_update' author.pk %}" role="button">Update Author</a>
+  <a class="btn btn-danger" href="{% url 'author_delete' author.pk %}" role="button">Delete Author</a>
+{% endif %}
+
 {% endblock %}

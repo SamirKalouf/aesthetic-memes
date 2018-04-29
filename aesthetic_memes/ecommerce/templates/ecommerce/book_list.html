@@ -4,6 +4,12 @@
   <div class="jumbotron">
     <h1>Book List</h1>
   </div>
+
+  {% if perms.can_add_book %}
+    <a class="btn btn-success" href="{% url 'book_create' %}" role="button">Add Book</a>
+    <hr>
+  {% endif %}
+
     <form action="" method="get" class="form-inline">
       <input id="keyword" type="text" name="keyword" placeholder="Search">
       <input type="submit" value="Search">

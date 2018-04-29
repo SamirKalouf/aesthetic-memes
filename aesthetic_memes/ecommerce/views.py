@@ -138,6 +138,12 @@ class BookCreate(PermissionRequiredMixin, CreateView):
 	fields = '__all__'
 	permission_required = 'ecommerce.can_add_book'
 
+class BookAddInstance(PermissionRequiredMixin, CreateView):
+    model = BookInstance
+    fields = '__all__'
+    permission_required = 'ecommerce.can_add_book'
+    success_url = reverse_lazy('books')
+
 class BookUpdate(PermissionRequiredMixin, UpdateView):
 	model = Book
 	fields = '__all__'
@@ -148,9 +154,10 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
 	success_url = reverse_lazy('books')
 	permission_required = 'ecommerce.can_delete_book'
 
-class BookPurchase(TemplateView):
+class BookPurchase(LoginRequiredMixin, TemplateView):
 	template_name = "book_page.html"
 
+@login_required
 def CartView(request):
 
     books = Book.objects.all()
