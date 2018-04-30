@@ -49,3 +49,7 @@ urlpatterns += [
     path('book/<uuid:book_id>/add-to-cart', views.add_to_cart, name='add-to-cart'),
     path('book/<uuid:book_id>/remove-from-cart', views.remove_from_cart, name='remove-from-cart'),
 ]
+
+urlpatterns += [
+    path('signup/', views.signup, name='signup'),
+]
