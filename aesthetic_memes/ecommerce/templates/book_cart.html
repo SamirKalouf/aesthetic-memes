@@ -7,7 +7,7 @@
 
   {% if owned_books %}
     {% for book in owned_books %}
-      <p><a class="btn btn-danger" role="button" style="margin-right:10px;" href={% url 'remove-from-cart' book.id %}>Remove From Cart </a>{{ book }}(${{ book.price }})</p>
+      <p><a class="btn btn-danger" role="button" style="margin-right:10px;" href={% url 'remove-from-cart' book.id %}>Remove From Cart </a>{{ book }} (${{ book.price }})</p>
     {% endfor %}
   {% else %}
     <p>Your cart is empty.</p>
@@ -21,6 +21,8 @@
     <p>Total: ${{ total_price_with_tax }}</p>
   {% endif %}
 
-  <a href="#" class="btn btn-success" role="button">Checkout</a> 
+  {% if owned_books %}
+    <a href="{% url 'checkout' user.profile.pk %}" class="btn btn-success" role="button">Checkout</a> 
+  {% endif %}
   
 {% endblock %}

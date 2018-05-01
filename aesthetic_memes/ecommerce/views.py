@@ -289,3 +289,50 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+class ProfileCheckout(LoginRequiredMixin, UpdateView):
+    model = Profile
+    fields = ['first_name', 'last_name', 'address', 'city', 'state', 'zip_code', 'phone_number']
+
+    success_url = reverse_lazy('success')
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileCheckout, self).get_context_data(**kwargs)
+
+        books = Book.objects.all()
+
+        books_owned = self.request.user.profile.bookinstance_set
+
+        total_price = 0
+        texas_tax = 0.0825
+
+        owned_books = []
+        for book in books_owned.all():
+            owned_books.append(book)
+            total_price = total_price + book.price
+
+        tax = round(total_price * decimal.Decimal(texas_tax),2)
+        total_price_with_tax = total_price + tax
+
+        context['books'] = books
+        context['owned_books'] = owned_books
+        context['total_price'] = total_price
+        context['total_price_with_tax'] = total_price_with_tax
+        context['tax'] = tax
+
+        return context
+
+@login_required
+def success_page(request):
+    books = Book.objects.all()
+
+    books_owned = request.user.profile.bookinstance_set
+
+    for book in books_owned.all():
+        book.delete()
+
+    return render(
+        request,
+        'success_page.html',
+        context = {}
+    )

@@ -53,3 +53,11 @@ urlpatterns += [
 urlpatterns += [
     path('signup/', views.signup, name='signup'),
 ]
+
+urlpatterns += [
+    path('checkout/<int:pk>/', views.ProfileCheckout.as_view(), name='checkout'),
+]
+
+urlpatterns += [
+    path('success/', views.success_page, name='success'),
+]

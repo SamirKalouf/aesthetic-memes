@@ -18,6 +18,7 @@
       <hr>
     {% endif %}
 
+  {% if book.bookinstance_set.all %}
     {% for copy in book.bookinstance_set.all %}
     <hr>
     <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
@@ -38,5 +39,8 @@
       </div>
     </div>
     {% endfor %}
+  {% else %}
+    <p class="text-danger">There are no copies of this book available at this time.</p>
+  {% endif %}
   </div>
 {% endblock %}

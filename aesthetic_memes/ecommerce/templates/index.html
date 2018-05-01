@@ -7,7 +7,6 @@
 
   <p>Welcome to <em>Aesthetic Books</em>, an easy to use website for all your textbook purchasing needs!</p>
 </div>
-<h2>Dynamic content</h2>
 
   <p>Aesthetic Books has the following record counts:</p>
   <ul>
@@ -17,6 +16,6 @@
     <li><strong>Authors:</strong> {{ num_authors }}</li>
   </ul>
 
-<p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
+  <a href="{% url 'books' %}"><p class="text-primary">Start searching for a book here!</p></a>
 
 {% endblock %}
