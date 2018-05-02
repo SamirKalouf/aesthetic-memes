@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h1>Borrowed books</h1>
+    <h1>Rented books</h1>
   </div>
 
     {% if bookinstance_list %}
@@ -16,6 +16,6 @@
     </ul>
 
     {% else %}
-      <h1><p class="text-danger text-center">There are no books borrowed.</p></h1>
+      <h1><p class="text-danger text-center">You are currently not renting any books.</p></h1>
     {% endif %}       
 {% endblock %}
