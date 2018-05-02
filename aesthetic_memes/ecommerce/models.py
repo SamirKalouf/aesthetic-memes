@@ -29,7 +29,7 @@ class Book(models.Model):
     author = models.ManyToManyField('Author')
     # ManyToManyField used because books can have multiple authors and authors can have multiple books
     # Author as a string rather than object because it hasn't been declared yet in the file.
-    summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
+    summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book', blank=True)
     isbn = models.CharField('ISBN',max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     # ManyToManyField used because genre can contain many books. Books can cover many genres.
@@ -65,7 +65,7 @@ class BookInstance(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
     book = models.ForeignKey('Book', on_delete=models.CASCADE, null=True) 
-    imprint = models.CharField(max_length=200)
+    imprint = models.CharField(max_length=200, blank=True)
     due_back = models.DateField(null=True, blank=True)
 
     owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)

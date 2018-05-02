@@ -91,3 +91,10 @@ a#sideNav:focus, a#backBtn:focus {
 .removeContainerLeftPadding {
   padding-left: 0px;
 }
+
+.logoutWindow{
+    text-align: center;
+    background-color: #F9F9F9;
+    border: 2px solid #00587c;
+    word-wrap: break-word;
+}

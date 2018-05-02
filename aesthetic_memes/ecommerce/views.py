@@ -92,7 +92,7 @@ class BookDetailView(generic.DetailView):
 
 class AuthorListView(generic.ListView):
     model = Author
-    paginate_by = 5
+    paginate_by = 10
 
     form_class = KeywordSearchForm
     search_error = False
