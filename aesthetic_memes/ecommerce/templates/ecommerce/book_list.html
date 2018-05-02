@@ -11,17 +11,25 @@
   {% endif %}
 
     <form action="" method="get" class="form-inline">
-      <input id="keyword" type="text" name="keyword" placeholder="Search">
-      <input type="submit" value="Search">
-      <a class="btn btn-primary" href="{%url 'books' %}">Clear search</a>
+      <input id="keyword" style="width: 300px; height:35px;" type="text" name="keyword" placeholder="Search Books">
+      <input class="btn btn-success" type="submit" value="Search Books">
+      <a class="btn btn-primary" href="{% url 'books' %}">Clear search</a>
     </form>
+    <hr>
 
     {% if book_list %}
     <ul>
 
       {% for book in book_list %}
       <li>
-        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+        <h4><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h4>
+        <p>Author(s): {% for author in book.author.all %} {{ author }}{% if not forloop.last %} |{% endif%}{% endfor %}</p>
+        {% if book.summary %}
+        <p>Summary: {{ book.summary }}</p>
+        {% else %}
+        <p>Summary: N/A</p>
+        {% endif %}
+        <hr>
       </li>
       {% endfor %}
 

@@ -1,17 +1,41 @@
 {% extends "base_generic.html" %}
 {% block content %}
 
+<style>
+div.row{
+    text-align: center;
+}
+div.logout{
+    text-align: center;
+    background-color:#F9F9F9;
+    border: 2px solid #00587c;
+}
+</style>
+
+
+
 <div class="container-fluid">
+    <div class="row">
+        <h1 style="color:#00587c;">Successfully Logged Out!</h1>
+        <hr />
+    </div>
 
     <div class="row">
-        <br><br>
-        <div class="logoutWindow col-md-offset-3 col-md-6">
-            <h1 style="color:#00587c;">Logged Out!</h1>
-            <br>
-            <hr>
-            <h3><a href="{% url 'login'%}">Click here to login.</a></h3>
+        <div class="logout col-md-offset-3 col-md-6">
+                <div>
+                    <h3><a href="{% url 'login' %}">Click here to login.</a></h3>
+                    <br>
+                    <h3>OR</h3>
+                    <br>
+                    <h3><a href="{% url 'index' %}">Head to home page.</a></h3>
+                </div>
+                
+                <div>
+                    <br>
+                </div>
         </div>
     </div>
+
 
 </div>
 {% endblock %}

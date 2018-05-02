@@ -13,6 +13,9 @@
 {% for book in author.book_set.all %}
   <dt><a href="{% url 'book-detail' book.pk %}">{{book}}</a> ({{book.bookinstance_set.all.count}})</dt>
   <dd>{{book.summary}}</dd>
+  {% if not forloop.last %}
+  <hr>
+  {% endif %}
 {% endfor %}
 </dl>
 

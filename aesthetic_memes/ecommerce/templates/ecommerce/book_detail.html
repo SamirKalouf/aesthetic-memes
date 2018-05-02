@@ -3,10 +3,11 @@
 {% block content %}
   <h1>Title: {{ book.title }}</h1>
 
+  <p><strong>Author(s):</strong> {% for author in book.author.all %} {{ author }}{% if not forloop.last %} |{% endif %}{% endfor %}
   <p><strong>Summary:</strong> {{ book.summary }}</p>
   <p><strong>ISBN:</strong> {{ book.isbn }}</p> 
   <p><strong>Language:</strong> {{ book.language }}</p>  
-  <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>  
+  <p><strong>Genre(s):</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>  
 
   <div>
     <h4>Copies</h4>
@@ -26,12 +27,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
-            <p class=""><strong>Imprint:</strong> {{copy.imprint}}</p>
+            <p class=""><strong>Price:</strong> ${{ copy.price }}</p>
         </div>
         <div class="col-sm-6">
             {% if copy.status == 'a' %}
 				<a href="{% url 'add-to-cart' copy.id %}" class="btn btn-success pull-right" role="button">Add To Cart</a>
-                <a href="{% url 'borrow-book' copy.id %}" class="btn btn-warning pull-right" style="margin-right:15px;" role="button">Borrow Book</a>
+                <a href="{% url 'borrow-book' copy.id %}" class="btn btn-warning pull-right" style="margin-right:15px;" role="button">Rent Book</a>
 			{% endif %}
 
             <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>

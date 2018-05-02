@@ -10,7 +10,7 @@
       <p><a class="btn btn-danger" role="button" style="margin-right:10px;" href={% url 'remove-from-cart' book.id %}>Remove From Cart </a>{{ book }} (${{ book.price }})</p>
     {% endfor %}
   {% else %}
-    <p>Your cart is empty.</p>
+    <h1><p class="text-danger text-center">Your cart is empty.</p></h1>
   {% endif %}
 
   <hr>

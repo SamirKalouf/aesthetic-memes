@@ -11,16 +11,23 @@
   {% endif %}
 
      <form action="" method="get" class="form-inline">
-       <input id="keyword" type="text" name="keyword" placeholder="Search Authors">
+       <input id="keyword" type="text" style="width:300px; height:35px;" name="keyword" placeholder="Search Authors">
        <input class="btn btn-success" type="submit" value="Search Authors">
        <a class="btn btn-primary" href="{%url 'authors' %}">Clear search</a>
      </form>
+    <hr>
     {% if author_list %}
     <ul>
 
       {% for author in author_list %}
       <li>
-        <a href="{{ author.get_absolute_url }}">{{ author.first_name }}&nbsp;{{ author.last_name }}
+        <h4><a href="{{ author.get_absolute_url }}">{{ author.first_name }}&nbsp;{{ author.last_name }}</h4>
+        {% for book in author.book_set.all %}
+          <dt><a href="{% url 'book-detail' book.pk %}">{{ book }}</a> ({{ book.bookinstance_set.all.count}})</dt>
+        {% endfor %}
+        <hr>
+
+
         {% if author.date_of_birth %}
             ({{ author.date_of_birth }} - {% if author.date_of_death %} {{ author.date_of_death }}{% endif %})
         {% endif %}
