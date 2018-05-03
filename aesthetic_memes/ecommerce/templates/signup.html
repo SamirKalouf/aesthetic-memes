@@ -1,10 +1,72 @@
-{% extends 'base_generic.html' %}
-
+{% extends "base_generic.html" %}
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
+
+<div class="container-fluid">
+
+<div class="row">
+    <h1 id="tabHeader"><center>Create Profile</center></h1>
+    <hr>
+</div>
+
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+            <form action ="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <table class="table table-striped">
+                        {%for field in form%}
+                            <tr>
+                                <th width="50%">
+                                    {{field.label}}
+                                    
+                                    {%if field.help_text%}
+                                        {% if field.label != "Password" %}
+                                            <br><br><center><p class="bg-warning small">{{field.help_text}}</p></center>
+                                        {% else %}
+                                            <br><br><center><p class="bg-warning small">
+                                            <ul class="bg-warning small">
+                                              <li>
+                                                Your password can't be too similar to your other personal information.
+                                              </li>
+                                              <li>
+                                                Your password must contain at least 8 characters.
+                                              </li>
+                                              <li>
+                                                Your password can't be a commonly used password.
+                                              </li>
+                                              <li>
+                                                Your password can't be entirely numeric.
+                                              </li>
+                                            </ul>
+                                            </p>
+                                          {% endif %}
+                                    {%endif%}
+                                
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <p class ="bg bg-danger text-center text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    {% endif %}
+                                
+                                </th>
+                                <td align="center" style="vertical-align: middle;">
+                                    {{field}}
+                                </td>
+                            </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+
+                <div class="row">
+                    <br>
+                    <a id="backBtn" class="btn btn-primary" href="javascript:history.go(-1)" role="button">Back</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="Submit"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
+

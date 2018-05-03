@@ -56,7 +56,11 @@ div.login{
                 <div>
                     <br>
                     <input type="submit" value="login" />
+                    {% if next == "/accounts/logout/" %}
+                    <input type="hidden" name="next" value="{% url 'index' %}" />
+                    {% else %}
                     <input type="hidden" name="next" value="{{ next }}" />
+                    {% endif %}
                     <br><br>
                 </div>
             

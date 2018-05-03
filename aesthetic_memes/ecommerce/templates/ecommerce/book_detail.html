@@ -15,8 +15,9 @@
     {% if perms.can_add_book %}
       <hr>
       <a class="btn btn-success" href="{% url 'add_instance' book.id %}" role="button">Add Instance</a>
+
+      <a class="btn btn-primary" href="{% url 'book_update' book.id %}" role="button">Update Book</a>
       <a class="btn btn-danger" href="{% url 'book_delete' book.id %}" role="button">Delete Book</a>
-      <hr>
     {% endif %}
 
   {% if book.bookinstance_set.all %}
@@ -29,7 +30,7 @@
         <div class="col-sm-6">
             <p class=""><strong>Price:</strong> ${{ copy.price }}</p>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6" style="padding-bottom:10px;">
             {% if copy.status == 'a' %}
 				<a href="{% url 'add-to-cart' copy.id %}" class="btn btn-success pull-right" role="button">Add To Cart</a>
                 <a href="{% url 'borrow-book' copy.id %}" class="btn btn-warning pull-right" style="margin-right:15px;" role="button">Rent Book</a>
